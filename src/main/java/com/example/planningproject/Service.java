@@ -43,8 +43,9 @@ public class Service {
 
         String timespan = req.getParameter("time");
         String startTime = timespan.substring(0,8);
-        String endTime = timespan.substring(8);
+        String endTime = timespan.substring(9);
 
+        System.out.println(startTime + "\n" + endTime);
 
         //map = createGrid(teamAmount);
 
@@ -99,7 +100,7 @@ public class Service {
 
         for (int i = 0; i < activityAmount; i++) {
 
-            LocalDateTime end = start.plusMinutes((long) timePrActivity / activityAmount);
+            LocalDateTime end = start.plusMinutes((long) timePrActivity);
 
             String startingTime = start.toString().substring(11);
             String endingTime = end.toString().substring(11);
@@ -121,7 +122,7 @@ public class Service {
         try {
             date1 = format.parse(startTime);
             date2 = format.parse(endTime);
-            difference = date1.getTime() - date2.getTime();
+            difference = date2.getTime() - date1.getTime();
         } catch (Exception e) {
 
         }

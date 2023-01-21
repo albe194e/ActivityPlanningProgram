@@ -38,19 +38,23 @@
 
 
 <div th:if="${session.map != null}">
-
+    <input type="text" th:value="${session.startTime}" id="startTime">
     <table>
         <thead>
             <tr>
+                <td>Aktivitet</td>
                 <td th:each="map : ${session.map}">
                     <span th:text="${map.key + 1}"></span>
                 </td>
+
             </tr>
         </thead>
         <tbody>
+
             <tr th:each="map : ${session.map}">
+                <td th:text="${session.activities.get(map.getKey())}"></td>
                 <td th:each="list : ${map.value}">
-                    <span th:text="${list}"></span>
+                    <span  th:text="${list}"></span>
                 </td>
             </tr>
         </tbody>
@@ -90,6 +94,7 @@
             let j = i+1
             let inputElement = document.createElement('input')
             inputElement.name =  'a' + j
+            inputElement.type = 'text'
 
             let labelElement = document.createElement('label')
             labelElement.innerHTML = 'Activity ' + j
