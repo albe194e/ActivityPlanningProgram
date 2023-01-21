@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>page</title>
+</head>
+<body>
+
+<div>
+    <label>how many teams?  <input id="teamsAmount" type="number"></label> <br>
+    <label>how many activities?  <input id="activitiesAmount" type="number"></label>
+    <button onclick="f()">Click</button>
+</div>
+<hr>
+
+<form style="display: none" id="form" action="/createTimeplan" method="post">
+    <div id="teamsDiv">
+        <h3>Teams</h3> <br>
+
+    </div>
+    <hr>
+    <div id="activitiesDiv">
+        <h3>Activities</h3><br>
+    </div>
+
+    <hr>
+    <label>Timespan: (WRITE LIKE THIS: 12:00:00-18:00:00) <br>
+        <input name="time" type="text">
+    </label>
+    <input style="display: none" id="input1" name="teamsAmount" type="number">
+    <input style="display: none" id="input2" name="activitiesAmount" type="number">
+    <button type="submit">Submit</button>
+</form>
+
+
+
+
+
+<div th:if="${session.map != null}">
+
+    <table>
+        <thead>
+            <tr>
+                <td th:each="map : ${session.map}">
+                    <span th:text="${map.key + 1}"></span>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="map : ${session.map}">
+                <td th:each="list : ${map.value}">
+                    <span th:text="${list}"></span>
+                </td>
+            </tr>
+        </tbody>
+
+
+    </table>
+
+</div>
+
+</body>
+
+<script>
+
+
+
+    function f() {
+
+        let teamsAmount = parseInt(document.getElementById('teamsAmount').value)
+        let activitiesAmount = parseInt(document.getElementById('activitiesAmount').value)
+
+        let div1 = document.getElementById('teamsDiv')
+        let div2 = document.getElementById('activitiesDiv')
+
+        for (let i = 0; i <teamsAmount.valueOf(); i++) {
+            let j = i+1
+            let inputElement = document.createElement('input')
+            inputElement.name =  't' + j
+
+            let labelElement = document.createElement('label')
+            labelElement.innerHTML = 'Team ' + j
+
+            labelElement.appendChild(inputElement)
+
+            div1.appendChild(labelElement)
+        }
+        for (let i = 0; i <activitiesAmount.valueOf(); i++) {
+            let j = i+1
+            let inputElement = document.createElement('input')
+            inputElement.name =  'a' + j
+
+            let labelElement = document.createElement('label')
+            labelElement.innerHTML = 'Activity ' + j
+
+            labelElement.appendChild(inputElement)
+
+            div2.appendChild(labelElement)
+        }
+        document.getElementById('input1').value = teamsAmount
+        document.getElementById('input2').value = activitiesAmount
+
+        document.getElementById('form').style.display = 'block'
+    }
+
+</script>
+</html>
