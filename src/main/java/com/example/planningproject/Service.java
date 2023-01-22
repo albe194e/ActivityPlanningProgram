@@ -2,63 +2,32 @@ package com.example.planningproject;
 
 import org.springframework.web.context.request.WebRequest;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Service {
 
 
-    public Map<Integer, ArrayList<String>> createTimeplan(WebRequest req){
+    public Map<Integer, ArrayList<String>> createTimePlan(WebRequest req){
 
         Map<Integer, ArrayList<String>> map = new HashMap<>();
 
         //Get data from webReguest
-        int teamAmount = Integer.parseInt(req.getParameter("teamsAmount"));
         int activitiesAmount = Integer.parseInt(req.getParameter("activitiesAmount"));
-
-        //Teams
-        /*
-        String[] teams = new String[teamAmount];
-        for (int i = 0; i < teams.length; i++) {
-            int j = i+1;
-            teams[i] = req.getParameter("t" + j);
-        }
-
-         */
-        /*
-        //Activities
-        String[] activities = new String[activitiesAmount];
-        for (int i = 0; i < activities.length; i++) {
-            int j = i +1;
-            activities[i] = req.getParameter("a" + j);
-        }
-
-         */
 
         String timespan = req.getParameter("time");
         String startTime = timespan.substring(0,8);
         String endTime = timespan.substring(9);
 
-        System.out.println(startTime + "\n" + endTime);
 
-        //map = createGrid(teamAmount);
-
-        float time = calcHours(startTime,endTime);
-        System.out.println("time: " + time);
+        float time = calcTime(startTime,endTime);
         //Time pr activity In hours
         float timePrActivity = time / activitiesAmount;
 
-        System.out.println("time pr activity: " + timePrActivity);
 
         List<String> activityTimes = createActivityTimes(timePrActivity,activitiesAmount,startTime);
-
-        System.out.println(activityTimes);
 
 
         for (int i = 0; i < activitiesAmount; i++) {
@@ -81,17 +50,10 @@ public class Service {
             map.put(i,list);
         }
 
-        for (int i = 0; i < map.size(); i++) {
-            System.out.println(map.get(i));
-        }
-
-
         return map;
     }
 
     private List<String> createActivityTimes(float timePrActivity, int activityAmount, String startTime) {
-
-
 
         List<String> list = new ArrayList<>();
 
@@ -113,7 +75,7 @@ public class Service {
 
         return list;
     }
-    private long calcHours(String startTime, String endTime){
+    private long calcTime(String startTime, String endTime){
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         Date date1;
@@ -127,22 +89,7 @@ public class Service {
 
         }
 
-        System.out.println(difference);
-        return difference / 60000;
-    }
-    private Map<Integer, ArrayList<String>> createGrid(int teams){
-
-        Map<Integer, ArrayList<String>> map = new HashMap<>();
-
-        for (int i = 0; i < teams; i++) {
-            ArrayList<String> list = new ArrayList<>();
-            map.put(i,list);
-        }
-        return map;
-    }
-
-    private void addTimespanToList(ArrayList<String> list){
-
-
+        //Difference is in milliseconds, is converted to minutes
+        return TimeUnit.MILLISECONDS.toMinutes(difference);
     }
 }

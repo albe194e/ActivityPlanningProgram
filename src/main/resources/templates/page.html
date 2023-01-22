@@ -8,8 +8,7 @@
 <body>
 
 <div>
-    <label>how many teams?  <input id="teamsAmount" type="number"></label> <br>
-    <label>how many activities?  <input id="activitiesAmount" type="number"></label>
+    <label>how many teams?  <input id="activitiesAmount" type="number"></label>
     <button onclick="f()">Click</button>
 </div>
 <hr>
@@ -38,13 +37,13 @@
 
 
 <div th:if="${session.map != null}">
-    <input type="text" th:value="${session.startTime}" id="startTime">
+    <input style="display: none" type="text" th:value="${session.startTime}" id="startTime">
     <table>
         <thead>
             <tr>
-                <td>Aktivitet</td>
+                <td>Hold / Aktivitet</td>
                 <td th:each="map : ${session.map}">
-                    <span th:text="${map.key + 1}"></span>
+                    <span th:text="${session.activities.get(map.getKey())}"></span>
                 </td>
 
             </tr>
@@ -52,9 +51,10 @@
         <tbody>
 
             <tr th:each="map : ${session.map}">
-                <td th:text="${session.activities.get(map.getKey())}"></td>
+                <td th:text="${session.teams.get(map.getKey())}"></td>
                 <td th:each="list : ${map.value}">
-                    <span  th:text="${list}"></span>
+                    <span  th:text="${list}">
+                    </span>
                 </td>
             </tr>
         </tbody>
@@ -72,7 +72,7 @@
 
     function f() {
 
-        let teamsAmount = parseInt(document.getElementById('teamsAmount').value)
+        let teamsAmount = parseInt(document.getElementById('activitiesAmount').value)
         let activitiesAmount = parseInt(document.getElementById('activitiesAmount').value)
 
         let div1 = document.getElementById('teamsDiv')
@@ -87,7 +87,7 @@
             labelElement.innerHTML = 'Team ' + j
 
             labelElement.appendChild(inputElement)
-
+            labelElement.appendChild(document.createElement('br'))
             div1.appendChild(labelElement)
         }
         for (let i = 0; i <activitiesAmount.valueOf(); i++) {
@@ -100,6 +100,7 @@
             labelElement.innerHTML = 'Activity ' + j
 
             labelElement.appendChild(inputElement)
+            labelElement.appendChild(document.createElement('br'))
 
             div2.appendChild(labelElement)
         }
