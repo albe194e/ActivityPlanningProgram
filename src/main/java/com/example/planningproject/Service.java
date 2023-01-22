@@ -14,7 +14,7 @@ public class Service {
 
         Map<Integer, ArrayList<String>> map = new HashMap<>();
 
-        //Get data from webReguest
+        //Get data from webRequest
         int activitiesAmount = Integer.parseInt(req.getParameter("activitiesAmount"));
 
         String timespan = req.getParameter("time");

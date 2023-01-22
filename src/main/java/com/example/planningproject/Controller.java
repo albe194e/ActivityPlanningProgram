@@ -46,7 +46,7 @@ public class Controller {
 
 
     @GetMapping("/")
-    public String index(){
+    public String index(HttpSession session){
        return "page";
     }
 }
